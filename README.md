@@ -13,7 +13,3 @@
   <body>
   </body>
 </html>
-
-body {
-    overflow: auto;
-}
