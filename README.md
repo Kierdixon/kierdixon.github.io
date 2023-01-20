@@ -3,9 +3,6 @@
 <html>
   <head>
     <style>
-    .scrollable {
-        overflow: auto;
-}
       body {
         background-image: url("https://i.imgur.com/lkgMab8.gif");
         background-size: cover;
