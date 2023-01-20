@@ -4,7 +4,7 @@
   <head>
     <style>
       body {
-        background-image: url("https://i.imgur.com/YOURGIFURL.gif");
+        background-image: url("https://i.imgur.com/lkgMab8.gif");
         background-size: cover;
         background-repeat: no-repeat;
         background-attachment: fixed;
