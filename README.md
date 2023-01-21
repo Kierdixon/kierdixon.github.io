@@ -1,4 +1,4 @@
-<div style="background-color: yellow; color: black; font-size: 50px; font-family: 'Comic Sans MS', cursive;">I YEARN FOR THE TOUCH OF A HUMAN <3 </div>
+<div style="background-color: yellow; color: black; font-size: 25px; font-family: 'Comic Sans MS', cursive;">idk what to put here </div>
 
 <html>
   <head>
