@@ -5,7 +5,8 @@
     <style>
       body {
         background-image: url("https://i.imgur.com/lkgMab8.gif");
-        background-size: cover;
+  background-size: cover;
+  background-position: center;
         background-repeat: no-repeat;
       }
     </style>
