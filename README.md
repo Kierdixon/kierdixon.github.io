@@ -4,7 +4,7 @@
       .scrolling-text {
         background-color: pink;
         font-family: "Comic Sans MS", cursive, sans-serif;
-        font-size: 36px;
+        font-size: 48px;
         white-space: nowrap;
         overflow: hidden;
         animation: scrolling-text 10s linear infinite;
@@ -20,7 +20,7 @@
     </style>
   </head>
   <body>
-    <div class="scrolling-text">Sarah Rocks</div>
+    <div class="scrolling-text">Gerard Butler is one of the men of all time</div>
   </body>
 </html>
 
