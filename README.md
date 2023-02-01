@@ -1,4 +1,29 @@
-<div style="background-color: yellow; color: black; font-size: 25px; font-family: 'Comic Sans MS', cursive;">idk what to put here </div>
+<html>
+  <head>
+    <style>
+      .scrolling-text {
+        background-color: pink;
+        font-family: "Comic Sans MS", cursive, sans-serif;
+        font-size: 36px;
+        white-space: nowrap;
+        overflow: hidden;
+        animation: scrolling-text 10s linear infinite;
+      }
+      @keyframes scrolling-text {
+        from {
+          transform: translateX(100%);
+        }
+        to {
+          transform: translateX(-100%);
+        }
+      }
+    </style>
+  </head>
+  <body>
+    <div class="scrolling-text">Sarah Rocks</div>
+  </body>
+</html>
+
 
 <html>
   <head>
