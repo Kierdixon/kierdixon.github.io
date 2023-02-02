@@ -20,7 +20,7 @@
     </style>
   </head>
   <body>
-    <div class="scrolling-text">Gerard Butler is one of the men of all time</div>
+    <div class="scrolling-text">never assume in life.. dont think that carrot big because carrot big leaf because small leaf carrot big not leaf big size</div>
   </body>
 </html>
 
