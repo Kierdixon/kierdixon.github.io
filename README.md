@@ -4,7 +4,7 @@
       .scrolling-text {
         background-color: pink;
         font-family: "Comic Sans MS", cursive, sans-serif;
-        font-size: 48px;
+        font-size: 18px;
         white-space: nowrap;
         overflow: hidden;
         animation: scrolling-text 10s linear infinite;
