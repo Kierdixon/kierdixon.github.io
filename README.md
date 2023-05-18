@@ -20,7 +20,7 @@
     </style>
   </head>
   <body>
-    <div class="scrolling-text">never assume in life.. dont think that carrot big because carrot big leaf because small leaf carrot big not leaf big size</div>
+    <div class="scrolling-text">what even the fuck is this? idk</div>
   </body>
 </html>
 
@@ -29,7 +29,7 @@
   <head>
     <style>
       body {
-        background-image: url("https://i.imgur.com/lkgMab8.gif");
+        background-image: url("https://media.discordapp.net/attachments/1040337568878825552/1058399652275310644/1672335518000915.gif");
   background-size: cover;
   background-position: center;
         background-repeat: no-repeat;
