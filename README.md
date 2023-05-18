@@ -14,12 +14,15 @@
       }
       
       .scrolling-text {
-        background-color: pink;
         font-family: "Comic Sans MS", cursive, sans-serif;
         font-size: 16px;
         white-space: nowrap;
         overflow: hidden;
         animation: scrolling-text 10s linear infinite;
+        display: inline-block;
+        padding: 5px 10px;
+        background-color: pink;
+        color: black;
       }
       
       @keyframes scrolling-text {
