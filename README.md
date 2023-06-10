@@ -37,6 +37,6 @@
     </style>
   </head>
   <body>
-    <div class="scrolling-text">what even the fuck is this? idk</div>
+    <div class="scrolling-text">what even the fuck is this? idk!!!</div>
   </body>
 </html>
