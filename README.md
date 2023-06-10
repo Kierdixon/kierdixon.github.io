@@ -1,5 +1,6 @@
 <html>
-  <head>
+  <head> 
+<title> Piss </title>
     <style>
       body {
         background-image: url("https://media.discordapp.net/attachments/1040337568878825552/1058399652275310644/1672335518000915.gif");
