@@ -3,7 +3,7 @@
 <title> Piss </title>
     <style>
       body {
-        background-image: url("https://media.discordapp.net/attachments/1040337568878825552/1058399652275310644/1672335518000915.gif");
+        background-image: url("https://i.imgur.com/i2zskx9.png");
         background-size: cover;
         background-position: center;
         background-repeat: no-repeat;
@@ -37,6 +37,6 @@
     </style>
   </head>
   <body>
-    <div class="scrolling-text">what even the fuck is this? idk!!!</div>
+    <div class="scrolling-text">Welcome to my website! I don't know what the fuck to do here!</div>
   </body>
 </html>
