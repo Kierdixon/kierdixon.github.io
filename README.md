@@ -159,7 +159,7 @@
 
         // Open another page when the new box is clicked
         function openLink() {
-            window.location.href = 'anotherpage.html'; // Replace with your desired URL
+            window.location.href = 'https://i.imgur.com/IIM6kpY.png'; // Replace with your desired URL
         }
     </script>
 </body>
