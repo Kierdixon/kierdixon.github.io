@@ -27,6 +27,7 @@
             color: black;
             position: absolute;
             border: 2px solid black; /* Optional: add border for visibility */
+            cursor: pointer; /* Change cursor to pointer to indicate clickability */
         }
     </style>
 </head>
@@ -35,43 +36,60 @@
 
     <script>
         const box = document.querySelector('.bouncing-text');
-        const speed = 2; // Speed of movement in pixels per frame
+        const speed = 1; // Speed of movement in pixels per frame
 
         let posX = 0;
         let posY = 0;
-        let velX = speed;
-        let velY = speed;
+        let velX = 0;
+        let velY = 0;
         const boxWidth = box.offsetWidth;
         const boxHeight = box.offsetHeight;
+        let isBouncing = false;
+
+        function startBouncing() {
+            if (!isBouncing) {
+                isBouncing = true;
+                velX = speed;
+                velY = speed;
+                update();
+            }
+        }
 
         function update() {
-            const windowWidth = window.innerWidth;
-            const windowHeight = window.innerHeight;
+            if (isBouncing) {
+                const windowWidth = window.innerWidth;
+                const windowHeight = window.innerHeight;
 
-            // Update position
-            posX += velX;
-            posY += velY;
+                // Update position
+                posX += velX;
+                posY += velY;
 
-            // Check for collision with window edges and reverse direction if needed
-            if (posX <= 0 || posX + boxWidth >= windowWidth) {
-                velX = -velX;
+                // Check for collision with window edges and reverse direction if needed
+                if (posX <= 0 || posX + boxWidth >= windowWidth) {
+                    velX = -velX;
+                }
+                if (posY <= 0 || posY + boxHeight >= windowHeight) {
+                    velY = -velY;
+                }
+
+                // Apply new position
+                box.style.left = posX + 'px';
+                box.style.top = posY + 'px';
+
+                requestAnimationFrame(update); // Continue the animation
             }
-            if (posY <= 0 || posY + boxHeight >= windowHeight) {
-                velY = -velY;
-            }
-
-            // Apply new position
-            box.style.left = posX + 'px';
-            box.style.top = posY + 'px';
-
-            requestAnimationFrame(update); // Continue the animation
         }
 
         // Initialize position
         posX = Math.random() * (window.innerWidth - boxWidth);
         posY = Math.random() * (window.innerHeight - boxHeight);
 
-        update(); // Start animation
+        // Set initial position of the text box
+        box.style.left = posX + 'px';
+        box.style.top = posY + 'px';
+
+        // Add click event listener to start bouncing
+        box.addEventListener('click', startBouncing);
     </script>
 </body>
 </html>
