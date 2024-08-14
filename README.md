@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Bouncing Text Box</title>
+    <title>Bouncing Text Box with Cursor Image</title>
     <style>
         body {
             background-image: url("https://i.imgur.com/1d9tmQg.png");
@@ -16,6 +16,7 @@
             justify-content: center;
             align-items: center;
             height: 100vh;
+            cursor: none; /* Hide the default cursor */
         }
 
         .bouncing-text {
@@ -29,14 +30,23 @@
             border: 2px solid black; /* Optional: add border for visibility */
             cursor: pointer; /* Change cursor to pointer to indicate clickability */
         }
+
+        .cursor-image {
+            position: absolute;
+            width: 50px; /* Adjust size as needed */
+            height: auto;
+            pointer-events: none; /* Ensures that the image doesn't interfere with click events */
+        }
     </style>
 </head>
 <body>
     <div class="bouncing-text">Welcome to my website!</div>
+    <img src="https://i.imgur.com/B5oJFTW.png" alt="Cursor Image" class="cursor-image">
 
     <script>
         const box = document.querySelector('.bouncing-text');
-        const speed = 1; // Speed of movement in pixels per frame
+        const cursorImage = document.querySelector('.cursor-image');
+        const speed = 1.5; // Speed of movement in pixels per frame
 
         let posX = 0;
         let posY = 0;
@@ -90,6 +100,12 @@
 
         // Add click event listener to start bouncing
         box.addEventListener('click', startBouncing);
+
+        // Update the position of the cursor image based on mouse movement
+        document.addEventListener('mousemove', (event) => {
+            cursorImage.style.left = (event.clientX - cursorImage.width / 2) + 'px';
+            cursorImage.style.top = (event.clientY - cursorImage.height / 2) + 'px';
+        });
     </script>
 </body>
 </html>
