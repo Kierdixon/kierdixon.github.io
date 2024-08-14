@@ -81,6 +81,13 @@
     <!-- New clickable box in the bottom right corner -->
     <div class="link-box" onclick="openLink()">Cat</div>
 
+    <!-- SoundCloud Embed -->
+    <iframe width="100%" height="166" scrolling="no" frameborder="no" allow="autoplay" src="https://w.soundcloud.com/player/?url=https%3A//api.soundcloud.com/tracks/848674204&color=%236c4068&auto_play=true&hide_related=false&show_comments=true&show_user=true&show_reposts=false&show_teaser=true"></iframe>
+    <div style="font-size: 10px; color: #cccccc;line-break: anywhere;word-break: normal;overflow: hidden;white-space: nowrap;text-overflow: ellipsis; font-family: Interstate,Lucida Grande,Lucida Sans Unicode,Lucida Sans,Garuda,Verdana,Tahoma,sans-serif;font-weight: 100;">
+        <a href="https://soundcloud.com/mohawkjohnsonmusic" title="Mohawk Johnson" target="_blank" style="color: #cccccc; text-decoration: none;">Mohawk Johnson</a> · 
+        <a href="https://soundcloud.com/mohawkjohnsonmusic/slim-jim" title="Slim &amp; Jim" target="_blank" style="color: #cccccc; text-decoration: none;">Slim &amp; Jim</a>
+    </div>
+
     <script>
         const box = document.querySelector('.bouncing-text');
         const cursorImage = document.querySelector('.cursor-image');
@@ -152,7 +159,7 @@
 
         // Open another page when the new box is clicked
         function openLink() {
-            window.location.href = 'https://i.imgur.com/IIM6kpY.png'; // Replace with your desired URL
+            window.location.href = 'anotherpage.html'; // Replace with your desired URL
         }
     </script>
 </body>
