@@ -3,7 +3,7 @@
 <title> Piss </title>
     <style>
       body {
-        background-image: url("https://i.imgur.com/i2zskx9.png");
+        background-image: url("https://i.imgur.com/1d9tmQg.png");
         background-size: cover;
         background-position: center;
         background-repeat: no-repeat;
