@@ -131,3 +131,38 @@
     </script>
 </body>
 </html>
+
+<!-- Add this JavaScript code to your main page HTML file -->
+<script>
+    const commentBox = document.getElementById('commentBox');
+    const submitComment = document.getElementById('submitComment');
+    const commentsList = document.getElementById('commentsList');
+
+    function addComment(text) {
+        const comment = document.createElement('p');
+        comment.textContent = text;
+        commentsList.appendChild(comment);
+
+        // Save comment to local storage
+        const comments = JSON.parse(localStorage.getItem('comments') || '[]');
+        comments.push(text);
+        localStorage.setItem('comments', JSON.stringify(comments));
+
+        commentBox.value = ''; // Clear the textarea
+    }
+
+    submitComment.addEventListener('click', () => {
+        const commentText = commentBox.value.trim();
+        if (commentText) {
+            addComment(commentText);
+        }
+    });
+
+    // Optional: Add ability to press "Enter" to submit the comment
+    commentBox.addEventListener('keypress', (e) => {
+        if (e.key === 'Enter' && !e.shiftKey) {
+            e.preventDefault();
+            submitComment.click();
+        }
+    });
+</script>
