@@ -112,6 +112,14 @@
 
         function saveComment(comment) {
             const comments = JSON.parse(localStorage.getItem('comments') || '[]');
+
+            // Check if the comment is "clearall!"
+            if (comment === "clearall!") {
+                localStorage.removeItem('comments'); // Clear all comments
+                loadComments(); // Refresh the comments list
+                return;
+            }
+
             comments.push(comment);
             localStorage.setItem('comments', JSON.stringify(comments));
         }
