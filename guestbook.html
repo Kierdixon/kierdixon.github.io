@@ -42,11 +42,53 @@
         .back-button:hover {
             background-color: lightcoral;
         }
+
+        .comment-form {
+            max-width: 800px;
+            margin: 20px auto;
+            padding: 10px;
+            background-color: #fff;
+            border: 1px solid #ddd;
+            border-radius: 5px;
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+        }
+
+        .comment-form input[type="text"] {
+            width: 100%;
+            padding: 10px;
+            margin-bottom: 10px;
+            border: 1px solid #ddd;
+            border-radius: 5px;
+            box-sizing: border-box;
+        }
+
+        .comment-form button {
+            display: inline-block;
+            padding: 10px 20px;
+            font-size: 16px;
+            color: #fff;
+            background-color: pink;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+        }
+
+        .comment-form button:hover {
+            background-color: lightcoral;
+        }
     </style>
 </head>
 <body>
     <a href="index.html" class="back-button">Back to Main Page</a>
+
     <div class="comments-container" id="commentsContainer"></div>
+
+    <div class="comment-form">
+        <form id="commentForm">
+            <input type="text" id="commentInput" placeholder="Enter your comment" required>
+            <button type="submit">Submit</button>
+        </form>
+    </div>
 
     <script>
         function loadComments() {
@@ -67,6 +109,25 @@
                 commentsContainer.appendChild(commentElement);
             });
         }
+
+        function saveComment(comment) {
+            const comments = JSON.parse(localStorage.getItem('comments') || '[]');
+            comments.push(comment);
+            localStorage.setItem('comments', JSON.stringify(comments));
+        }
+
+        // Handle form submission
+        document.getElementById('commentForm').addEventListener('submit', function(event) {
+            event.preventDefault(); // Prevent form from submitting the traditional way
+            const commentInput = document.getElementById('commentInput');
+            const comment = commentInput.value.trim();
+
+            if (comment) {
+                saveComment(comment);
+                commentInput.value = ''; // Clear input field
+                loadComments(); // Reload comments
+            }
+        });
 
         // Load comments on page load
         window.onload = loadComments;
