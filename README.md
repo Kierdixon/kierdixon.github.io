@@ -19,7 +19,7 @@
         font-size: 16px;
         white-space: nowrap;
         overflow: hidden;
-        animation: scrolling-text 10s linear infinite;
+        animation: scrolling-text 30s linear infinite;
         display: inline-block;
         padding: 5px 10px;
         background-color: pink;
@@ -37,6 +37,6 @@
     </style>
   </head>
   <body>
-    <div class="scrolling-text">Welcome to my website! I don't know what the fuck to do here!</div>
+    <div class="scrolling-text">Welcome to my website!</div>
   </body>
 </html>
