@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Bouncing Text Box with Cursor Image and Guestbook</title>
+    <title>Bouncing Text Box with Cursor Image and YouTube Audio</title>
     <style>
         body {
             background-image: url("https://i.imgur.com/1d9tmQg.png");
@@ -37,61 +37,71 @@
             pointer-events: none; /* Ensures that the image doesn't interfere with click events */
         }
 
-        .guestbook {
+        .guestbook-box {
             position: fixed;
-            bottom: 0;
-            left: 0;
-            width: 100%;
+            bottom: 10px;
+            left: 10px;
             background-color: rgba(255, 255, 255, 0.8); /* Semi-transparent background */
-            border-top: 2px solid black; /* Border for separation */
+            border: 2px solid black; /* Border for visibility */
             padding: 10px;
-            box-sizing: border-box;
+            cursor: pointer; /* Change cursor to pointer to indicate clickability */
+            text-align: center;
+            font-size: 18px;
+            width: 150px;
         }
 
-        .guestbook textarea {
-            width: calc(100% - 20px);
-            height: 80px;
-            margin-bottom: 10px;
-            padding: 10px;
-            font-size: 16px;
-        }
-
-        .guestbook button {
-            padding: 10px 20px;
-            font-size: 16px;
-            background-color: pink;
-            border: none;
-            cursor: pointer;
-        }
-
-        .guestbook button:hover {
+        .guestbook-box:hover {
             background-color: lightcoral;
         }
 
-        .guestbook .comments {
-            margin-top: 10px;
-        }
-
-        .guestbook .comments p {
-            margin: 5px 0;
-            padding: 5px;
-            background-color: #f9f9f9;
-            border: 1px solid #ddd;
-            border-radius: 5px;
+        /* Hidden YouTube player iframe */
+        #player {
+            position: absolute;
+            width: 0;
+            height: 0;
+            overflow: hidden;
         }
     </style>
 </head>
 <body>
     <div class="bouncing-text">Welcome to my website!</div>
     <img src="https://i.imgur.com/B5oJFTW.png" alt="Cursor Image" class="cursor-image">
+    
+    <div class="guestbook-box" onclick="openGuestbook()">Guestbook</div>
 
-    <div class="guestbook">
-        <textarea id="commentBox" placeholder="Leave your comment here..."></textarea>
-        <button id="submitComment">Submit Comment</button>
-        <div class="comments" id="commentsList"></div>
-    </div>
-
+    <!-- YouTube Player API script -->
+    <script src="https://www.youtube.com/iframe_api"></script>
     <script>
+        // Global variable for the player
+        let player;
+
+        // Function to create an iframe and YouTube player
+        function onYouTubeIframeAPIReady() {
+            player = new YT.Player('player', {
+                height: '0',
+                width: '0',
+                videoId: '<iframe width="560" height="315" src="https://www.youtube.com/embed/brwS_ZmVaRc?si=xDLpUdK9KZpXhD92" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" referrerpolicy="strict-origin-when-cross-origin" allowfullscreen></iframe>', // Replace with your YouTube video ID
+                playerVars: {
+                    'autoplay': 1, // Autoplay video
+                    'controls': 0, // Hide controls
+                    'mute': 1, // Mute the video
+                    'loop': 1, // Loop the video
+                    'playlist': 'YOUR_VIDEO_ID' // Ensure loop
+                },
+                events: {
+                    'onReady': onPlayerReady
+                }
+            });
+        }
+
+        function onPlayerReady(event) {
+            event.target.playVideo();
+        }
+
+        function openGuestbook() {
+            window.location.href = 'guestbook.html'; // Navigate to the guestbook page
+        }
+
         const box = document.querySelector('.bouncing-text');
         const cursorImage = document.querySelector('.cursor-image');
         const speed = 2; // Speed of movement in pixels per frame
@@ -154,33 +164,9 @@
             cursorImage.style.left = (event.clientX - cursorImage.width / 2) + 'px';
             cursorImage.style.top = (event.clientY - cursorImage.height / 2) + 'px';
         });
-
-        // Guestbook functionality
-        const commentBox = document.getElementById('commentBox');
-        const submitComment = document.getElementById('submitComment');
-        const commentsList = document.getElementById('commentsList');
-
-        function addComment(text) {
-            const comment = document.createElement('p');
-            comment.textContent = text;
-            commentsList.appendChild(comment);
-            commentBox.value = ''; // Clear the textarea
-        }
-
-        submitComment.addEventListener('click', () => {
-            const commentText = commentBox.value.trim();
-            if (commentText) {
-                addComment(commentText);
-            }
-        });
-
-        // Optional: Add ability to press "Enter" to submit the comment
-        commentBox.addEventListener('keypress', (e) => {
-            if (e.key === 'Enter' && !e.shiftKey) {
-                e.preventDefault();
-                submitComment.click();
-            }
-        });
     </script>
+
+    <!-- Hidden iframe for YouTube player -->
+    <div id="player"></div>
 </body>
 </html>
