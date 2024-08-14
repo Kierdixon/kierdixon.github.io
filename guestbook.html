@@ -1,0 +1,75 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Guestbook</title>
+    <style>
+        body {
+            background-color: #f9f9f9;
+            margin: 0;
+            font-family: Arial, sans-serif;
+            padding: 20px;
+        }
+
+        .comments-container {
+            max-width: 800px;
+            margin: 0 auto;
+        }
+
+        .comment {
+            background-color: #fff;
+            border: 1px solid #ddd;
+            border-radius: 5px;
+            padding: 10px;
+            margin-bottom: 10px;
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+        }
+
+        .back-button {
+            display: inline-block;
+            padding: 10px 20px;
+            font-size: 16px;
+            color: #fff;
+            background-color: pink;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            text-decoration: none;
+            text-align: center;
+        }
+
+        .back-button:hover {
+            background-color: lightcoral;
+        }
+    </style>
+</head>
+<body>
+    <a href="index.html" class="back-button">Back to Main Page</a>
+    <div class="comments-container" id="commentsContainer"></div>
+
+    <script>
+        function loadComments() {
+            const commentsContainer = document.getElementById('commentsContainer');
+            const comments = JSON.parse(localStorage.getItem('comments') || '[]');
+
+            commentsContainer.innerHTML = ''; // Clear previous comments
+
+            if (comments.length === 0) {
+                commentsContainer.innerHTML = '<p>No comments yet!</p>';
+                return;
+            }
+
+            comments.forEach(comment => {
+                const commentElement = document.createElement('div');
+                commentElement.className = 'comment';
+                commentElement.textContent = comment;
+                commentsContainer.appendChild(commentElement);
+            });
+        }
+
+        // Load comments on page load
+        window.onload = loadComments;
+    </script>
+</body>
+</html>
