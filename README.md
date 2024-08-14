@@ -35,7 +35,7 @@
 
     <script>
         const box = document.querySelector('.bouncing-text');
-        const speed = 4; // Speed of movement in pixels per frame
+        const speed = 2; // Speed of movement in pixels per frame
 
         let posX = 0;
         let posY = 0;
