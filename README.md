@@ -52,6 +52,24 @@
         .guestbook-box:hover {
             background-color: lightcoral;
         }
+
+        /* New box styling */
+        .link-box {
+            position: fixed;
+            bottom: 10px;
+            right: 10px;
+            background-color: lightblue;
+            border: 2px solid black;
+            padding: 10px;
+            text-align: center;
+            font-size: 18px;
+            width: 150px;
+            cursor: pointer;
+        }
+
+        .link-box:hover {
+            background-color: skyblue;
+        }
     </style>
 </head>
 <body>
@@ -59,6 +77,9 @@
     <img src="https://i.imgur.com/B5oJFTW.png" alt="Cursor Image" class="cursor-image">
 
     <div class="guestbook-box" onclick="openGuestbook()">Guestbook</div>
+
+    <!-- New clickable box in the bottom right corner -->
+    <div class="link-box" onclick="openLink()">Go to Another Page</div>
 
     <script>
         const box = document.querySelector('.bouncing-text');
@@ -128,41 +149,11 @@
         function openGuestbook() {
             window.location.href = 'guestbook.html'; // Navigate to the guestbook page
         }
+
+        // Open another page when the new box is clicked
+        function openLink() {
+            window.location.href = 'https://i.imgur.com/IIM6kpY.png'; // Replace with your desired URL
+        }
     </script>
 </body>
 </html>
-
-<!-- Add this JavaScript code to your main page HTML file -->
-<script>
-    const commentBox = document.getElementById('commentBox');
-    const submitComment = document.getElementById('submitComment');
-    const commentsList = document.getElementById('commentsList');
-
-    function addComment(text) {
-        const comment = document.createElement('p');
-        comment.textContent = text;
-        commentsList.appendChild(comment);
-
-        // Save comment to local storage
-        const comments = JSON.parse(localStorage.getItem('comments') || '[]');
-        comments.push(text);
-        localStorage.setItem('comments', JSON.stringify(comments));
-
-        commentBox.value = ''; // Clear the textarea
-    }
-
-    submitComment.addEventListener('click', () => {
-        const commentText = commentBox.value.trim();
-        if (commentText) {
-            addComment(commentText);
-        }
-    });
-
-    // Optional: Add ability to press "Enter" to submit the comment
-    commentBox.addEventListener('keypress', (e) => {
-        if (e.key === 'Enter' && !e.shiftKey) {
-            e.preventDefault();
-            submitComment.click();
-        }
-    });
-</script>
