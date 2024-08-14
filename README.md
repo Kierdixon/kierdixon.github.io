@@ -79,7 +79,7 @@
     <div class="guestbook-box" onclick="openGuestbook()">Guestbook</div>
 
     <!-- New clickable box in the bottom right corner -->
-    <div class="link-box" onclick="openLink()">Go to Another Page</div>
+    <div class="link-box" onclick="openLink()">Cat</div>
 
     <script>
         const box = document.querySelector('.bouncing-text');
