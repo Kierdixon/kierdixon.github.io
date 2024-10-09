@@ -73,7 +73,7 @@
     </style>
 </head>
 <body>
-    <div class="bouncing-text">Welcome to my website!</div>
+    <div class="bouncing-text">Sarah Sucks!</div>
     <img src="https://i.imgur.com/B5oJFTW.png" alt="Cursor Image" class="cursor-image">
 
     <div class="guestbook-box" onclick="openGuestbook()">Guestbook</div>
