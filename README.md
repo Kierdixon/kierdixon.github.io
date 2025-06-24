@@ -5,8 +5,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1" />
     <title>Bouncing Text Box with Cursor Image and Guestbook</title>
     <style>
-        /* Existing styles trimmed for brevity — unchanged */
-
+        /* Hide GitHub Pages title/header if it shows your name */
         h1, header, .site-header, .page-header, .project-name {
             display: none !important;
         }
@@ -112,36 +111,36 @@
             background-color: #d17712;
         }
 
+        /* Tic Tac Toe */
         #tic-tac-toe-container {
-    position: fixed;
-    right: 10px;
-    top: 50%;
-    transform: translateY(-50%);
-    background: rgba(255, 255, 255, 0.9);
-    border: 3px solid black;
-    padding: 10px;
-    z-index: 1000;
-    font-family: 'Comic Sans MS', cursive;
-}
-
+            position: fixed;
+            right: 10px;
+            top: 50%;
+            transform: translateY(-50%);
+            background: rgba(255, 255, 255, 0.9);
+            border: 3px solid black;
+            padding: 10px;
+            z-index: 1000;
+            font-family: 'Comic Sans MS', cursive;
         }
 
         #tic-tac-toe-board {
             display: grid;
-            grid-template-columns: repeat(3, 50px);
-            grid-template-rows: repeat(3, 50px);
+            grid-template-columns: repeat(3, 60px);
+            grid-template-rows: repeat(3, 60px);
             gap: 5px;
             margin-bottom: 10px;
+            justify-content: center;
         }
 
         .tic-cell {
-            width: 50px;
-            height: 50px;
+            width: 60px;
+            height: 60px;
             background-color: white;
             border: 2px solid black;
             font-size: 30px;
             text-align: center;
-            line-height: 50px;
+            line-height: 60px;
             cursor: pointer;
             user-select: none;
         }
@@ -259,13 +258,13 @@
         }
 
         const gifs = [
-          'Monkeys/spinning-monkey.gif',
-          'Monkeys/monky-monkey.gif',
-          'Monkeys/monkey-spinning-444hobi.gif',
-          'Monkeys/monkey-spinning.gif',
-          'Monkeys/mongy-monke.gif',
-          'Monkeys/fat-fat-monkey.gif',
-          'Monkeys/Spinpool.gif'
+            'Monkeys/spinning-monkey.gif',
+            'Monkeys/monky-monkey.gif',
+            'Monkeys/monkey-spinning-444hobi.gif',
+            'Monkeys/monkey-spinning.gif',
+            'Monkeys/mongy-monke.gif',
+            'Monkeys/fat-fat-monkey.gif',
+            'Monkeys/Spinpool.gif'
         ];
 
         function showRandomGif() {
@@ -283,7 +282,7 @@
             gifImage.src = '';
         }
 
-        // Tic Tac Toe
+        // Tic Tac Toe logic
         const board = document.getElementById('tic-tac-toe-board');
         const resetButton = document.getElementById('reset-button');
         let currentPlayer = 'X';
