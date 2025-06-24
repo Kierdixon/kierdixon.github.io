@@ -5,7 +5,8 @@
     <meta name="viewport" content="width=device-width, initial-scale=1" />
     <title>Bouncing Text Box with Cursor Image and Guestbook</title>
     <style>
-        /* Hide GitHub Pages title/header if it shows your name */
+        /* Existing styles trimmed for brevity — unchanged */
+
         h1, header, .site-header, .page-header, .project-name {
             display: none !important;
         }
@@ -67,7 +68,6 @@
             -webkit-user-drag: none;
         }
 
-        /* Bottom buttons container */
         .bottom-buttons {
             position: fixed;
             bottom: 10px;
@@ -112,12 +112,52 @@
             background-color: #d17712;
         }
 
+        #tic-tac-toe-container {
+            position: fixed;
+            right: 10px;
+            top: 10px;
+            background: rgba(255, 255, 255, 0.9);
+            border: 3px solid black;
+            padding: 10px;
+            z-index: 1000;
+            font-family: 'Comic Sans MS', cursive;
+        }
+
+        #tic-tac-toe-board {
+            display: grid;
+            grid-template-columns: repeat(3, 50px);
+            grid-template-rows: repeat(3, 50px);
+            gap: 5px;
+            margin-bottom: 10px;
+        }
+
+        .tic-cell {
+            width: 50px;
+            height: 50px;
+            background-color: white;
+            border: 2px solid black;
+            font-size: 30px;
+            text-align: center;
+            line-height: 50px;
+            cursor: pointer;
+            user-select: none;
+        }
+
+        #reset-button {
+            width: 100%;
+            padding: 5px;
+            cursor: pointer;
+            font-weight: bold;
+            background-color: lightgreen;
+            border: 2px solid black;
+        }
+        #reset-button:hover {
+            background-color: mediumseagreen;
+        }
     </style>
 </head>
 <body>
     <div class="bouncing-text">Click for good luck!</div>
-
-    <!-- Transparent monkey cursor image -->
     <img src="Monkeys/monkeycursor.png" alt="Cursor Image" class="cursor-image" />
 
     <div class="bottom-buttons">
@@ -126,16 +166,20 @@
         <div class="link-box" onclick="openLink()">Cat</div>
     </div>
 
-    <!-- Hidden cat image -->
     <img id="cat-image" src="https://i.imgur.com/IIM6kpY.png" alt="Cat Image"
          style="display: none; max-width: 100%; position: fixed; top: 50%; left: 50%;
          transform: translate(-50%, -50%); border: 4px solid black;" />
 
-    <!-- GIF display container -->
     <div id="gif-container" style="display:none; position: fixed; top: 50%; left: 50%; transform: translate(-50%, -50%);
         border: 4px solid black; background: white; padding: 10px; z-index: 1000;">
         <button onclick="hideGif()" style="display: block; margin-bottom: 8px; cursor:pointer;">Close GIF</button>
         <img id="random-gif" src="" alt="Random GIF" style="max-width: 90vw; max-height: 80vh; display: block;" />
+    </div>
+
+    <!-- Tic Tac Toe -->
+    <div id="tic-tac-toe-container">
+        <div id="tic-tac-toe-board"></div>
+        <button id="reset-button">Reset</button>
     </div>
 
     <script>
@@ -168,12 +212,8 @@
                 posX += velX;
                 posY += velY;
 
-                if (posX <= 0 || posX + boxWidth >= windowWidth) {
-                    velX = -velX;
-                }
-                if (posY <= 0 || posY + boxHeight >= windowHeight) {
-                    velY = -velY;
-                }
+                if (posX <= 0 || posX + boxWidth >= windowWidth) velX = -velX;
+                if (posY <= 0 || posY + boxHeight >= windowHeight) velY = -velY;
 
                 box.style.left = posX + 'px';
                 box.style.top = posY + 'px';
@@ -189,7 +229,6 @@
 
         box.addEventListener('click', () => {
             startBouncing();
-
             const msg = new SpeechSynthesisUtterance("Good luck, bastard!");
             window.speechSynthesis.speak(msg);
         });
@@ -205,7 +244,6 @@
 
         function openLink() {
             const catImage = document.getElementById('cat-image');
-
             if (catImage.style.display === 'none' || catImage.style.display === '') {
                 catImage.style.display = 'block';
                 catImage.classList.remove('cartoon-animate');
@@ -217,23 +255,20 @@
             }
         }
 
-        // GIF feature
         const gifs = [
           'Monkeys/spinning-monkey.gif',
           'Monkeys/monky-monkey.gif',
           'Monkeys/monkey-spinning-444hobi.gif',
           'Monkeys/monkey-spinning.gif',
           'Monkeys/mongy-monke.gif',
-          'Monkeys/fat-fat-monkey.gif'
-		  'Monkeys/Spinpool.gif'
-		  
+          'Monkeys/fat-fat-monkey.gif',
+          'Monkeys/Spinpool.gif'
         ];
 
         function showRandomGif() {
             const container = document.getElementById('gif-container');
             const gifImage = document.getElementById('random-gif');
             const randomIndex = Math.floor(Math.random() * gifs.length);
-            console.log('Showing GIF:', gifs[randomIndex]); // For debugging
             gifImage.src = gifs[randomIndex];
             container.style.display = 'block';
         }
@@ -242,8 +277,31 @@
             const container = document.getElementById('gif-container');
             const gifImage = document.getElementById('random-gif');
             container.style.display = 'none';
-            gifImage.src = '';  // stop GIF playing by clearing src
+            gifImage.src = '';
         }
+
+        // Tic Tac Toe
+        const board = document.getElementById('tic-tac-toe-board');
+        const resetButton = document.getElementById('reset-button');
+        let currentPlayer = 'X';
+
+        function createBoard() {
+            board.innerHTML = '';
+            for (let i = 0; i < 9; i++) {
+                const cell = document.createElement('div');
+                cell.classList.add('tic-cell');
+                cell.addEventListener('click', () => {
+                    if (!cell.textContent) {
+                        cell.textContent = currentPlayer;
+                        currentPlayer = currentPlayer === 'X' ? 'O' : 'X';
+                    }
+                });
+                board.appendChild(cell);
+            }
+        }
+
+        resetButton.addEventListener('click', createBoard);
+        createBoard();
     </script>
 </body>
 </html>
