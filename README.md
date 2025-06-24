@@ -1,8 +1,8 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
     <title>Bouncing Text Box with Cursor Image and Guestbook</title>
     <style>
         /* Hide GitHub Pages title/header if it shows your name */
@@ -98,7 +98,7 @@
 </head>
 <body>
     <div class="bouncing-text">Alex is a homo!</div>
-    <img src="https://i.imgur.com/B5oJFTW.png" alt="Cursor Image" class="cursor-image">
+    <img src="https://i.imgur.com/B5oJFTW.png" alt="Cursor Image" class="cursor-image" />
 
     <div class="guestbook-box" onclick="openGuestbook()">Guestbook</div>
     <div class="link-box" onclick="openLink()">Cat</div>
@@ -106,7 +106,7 @@
     <!-- Hidden cat image -->
     <img id="cat-image" src="https://i.imgur.com/IIM6kpY.png" alt="Cat Image"
          style="display: none; max-width: 100%; position: fixed; top: 50%; left: 50%;
-         transform: translate(-50%, -50%); border: 4px solid black;">
+         transform: translate(-50%, -50%); border: 4px solid black;" />
 
     <!-- SoundCloud Embed -->
     <iframe width="100%" height="166" scrolling="no" frameborder="no" allow="autoplay"
@@ -165,7 +165,13 @@
         posY = Math.random() * (window.innerHeight - boxHeight);
         box.style.left = posX + 'px';
         box.style.top = posY + 'px';
-        box.addEventListener('click', startBouncing);
+
+        box.addEventListener('click', () => {
+            startBouncing();
+
+            const msg = new SpeechSynthesisUtterance("Good luck, bastard!");
+            window.speechSynthesis.speak(msg);
+        });
 
         document.addEventListener('mousemove', (event) => {
             cursorImage.style.left = (event.clientX - cursorImage.width / 2) + 'px';
