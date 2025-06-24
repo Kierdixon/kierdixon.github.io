@@ -117,7 +117,7 @@
 <body>
     <div class="bouncing-text">Click for good luck!</div>
 
-    <!-- Replace the src below with your transparent-background monkey cursor PNG -->
+    <!-- Replace src with your transparent monkey cursor PNG path -->
     <img src="Monkeys/monkey_cursor.png" alt="Cursor Image" class="cursor-image" />
 
     <div class="bottom-buttons">
@@ -219,16 +219,19 @@
 
         // GIF feature
         const gifs = [
-            'Monkeys/cat1.gif',
-            'Monkeys/funny2.gif',
-            'Monkeys/dance3.gif'
-            // add your actual GIF file names here, relative to the Monkeys folder
+          'Monkeys/spinning-monkey.gif',
+          'Monkeys/monky-monkey.gif',
+          'Monkeys/monkey-spinning-444hobi.gif',
+          'Monkeys/monkey-spinning.gif',
+          'Monkeys/mongy-monke.gif',
+          'Monkeys/fat-fat-monkey.gif'
         ];
 
         function showRandomGif() {
             const container = document.getElementById('gif-container');
             const gifImage = document.getElementById('random-gif');
             const randomIndex = Math.floor(Math.random() * gifs.length);
+            console.log('Showing GIF:', gifs[randomIndex]); // For debugging
             gifImage.src = gifs[randomIndex];
             container.style.display = 'block';
         }
