@@ -40,6 +40,7 @@
             flex-direction: column;
             height: 100vh;
             cursor: none;
+            position: relative;
         }
 
         .bouncing-text {
@@ -59,12 +60,27 @@
             width: 50px;
             height: auto;
             pointer-events: none;
+
+            /* Fix background & border */
+            background-color: transparent !important;
+            border: none !important;
+            image-rendering: auto;
         }
 
-        .guestbook-box {
+        /* Bottom buttons container */
+        .bottom-buttons {
             position: fixed;
             bottom: 10px;
-            left: 10px;
+            left: 0;
+            right: 0;
+            display: flex;
+            justify-content: center;
+            gap: 20px;
+            pointer-events: auto;
+            z-index: 100;
+        }
+
+        .guestbook-box, .link-box, .gif-button {
             background-color: rgba(255, 255, 255, 0.8);
             border: 2px solid black;
             padding: 10px;
@@ -72,6 +88,8 @@
             text-align: center;
             font-size: 18px;
             width: 150px;
+            user-select: none;
+            box-sizing: border-box;
         }
 
         .guestbook-box:hover {
@@ -79,42 +97,45 @@
         }
 
         .link-box {
-            position: fixed;
-            bottom: 10px;
-            right: 10px;
             background-color: lightblue;
-            border: 2px solid black;
-            padding: 10px;
-            text-align: center;
-            font-size: 18px;
-            width: 150px;
-            cursor: pointer;
         }
-
         .link-box:hover {
             background-color: skyblue;
         }
+
+        .gif-button {
+            background-color: #eb9819;
+            color: black;
+            font-weight: bold;
+        }
+        .gif-button:hover {
+            background-color: #d17712;
+        }
+
     </style>
 </head>
 <body>
     <div class="bouncing-text">Click for good luck!</div>
-    <img src="https://i.imgur.com/B5oJFTW.png" alt="Cursor Image" class="cursor-image" />
 
-    <div class="guestbook-box" onclick="openGuestbook()">Guestbook</div>
-    <div class="link-box" onclick="openLink()">Cat</div>
+    <!-- Replace the src below with your transparent-background monkey cursor PNG -->
+    <img src="Monkeys/monkey_cursor.png" alt="Cursor Image" class="cursor-image" />
+
+    <div class="bottom-buttons">
+        <div class="guestbook-box" onclick="openGuestbook()">Guestbook</div>
+        <div class="gif-button" onclick="showRandomGif()">Monkey</div>
+        <div class="link-box" onclick="openLink()">Cat</div>
+    </div>
 
     <!-- Hidden cat image -->
     <img id="cat-image" src="https://i.imgur.com/IIM6kpY.png" alt="Cat Image"
          style="display: none; max-width: 100%; position: fixed; top: 50%; left: 50%;
          transform: translate(-50%, -50%); border: 4px solid black;" />
 
-    <!-- SoundCloud Embed -->
-    <iframe width="100%" height="166" scrolling="no" frameborder="no" allow="autoplay"
-        src="https://w.soundcloud.com/player/?url=https%3A//api.soundcloud.com/tracks/848674204&color=%236c4068&auto_play=true&hide_related=false&show_comments=true&show_user=true&show_reposts=false&show_teaser=true">
-    </iframe>
-    <div style="font-size: 10px; color: #cccccc; line-break: anywhere; word-break: normal; overflow: hidden; white-space: nowrap; text-overflow: ellipsis; font-family: Interstate,Lucida Grande,Lucida Sans Unicode,Lucida Sans,Garuda,Verdana,Tahoma,sans-serif; font-weight: 100;">
-        <a href="https://soundcloud.com/mohawkjohnsonmusic" title="Mohawk Johnson" target="_blank" style="color: #cccccc; text-decoration: none;">Mohawk Johnson</a> · 
-        <a href="https://soundcloud.com/mohawkjohnsonmusic/slim-jim" title="Slim &amp; Jim" target="_blank" style="color: #cccccc; text-decoration: none;">Slim &amp; Jim</a>
+    <!-- GIF display container -->
+    <div id="gif-container" style="display:none; position: fixed; top: 50%; left: 50%; transform: translate(-50%, -50%);
+        border: 4px solid black; background: white; padding: 10px; z-index: 1000;">
+        <button onclick="hideGif()" style="display: block; margin-bottom: 8px; cursor:pointer;">Close GIF</button>
+        <img id="random-gif" src="" alt="Random GIF" style="max-width: 90vw; max-height: 80vh; display: block;" />
     </div>
 
     <script>
@@ -194,6 +215,29 @@
                 catImage.style.display = 'none';
                 catImage.classList.remove('cartoon-animate');
             }
+        }
+
+        // GIF feature
+        const gifs = [
+            'Monkeys/cat1.gif',
+            'Monkeys/funny2.gif',
+            'Monkeys/dance3.gif'
+            // add your actual GIF file names here, relative to the Monkeys folder
+        ];
+
+        function showRandomGif() {
+            const container = document.getElementById('gif-container');
+            const gifImage = document.getElementById('random-gif');
+            const randomIndex = Math.floor(Math.random() * gifs.length);
+            gifImage.src = gifs[randomIndex];
+            container.style.display = 'block';
+        }
+
+        function hideGif() {
+            const container = document.getElementById('gif-container');
+            const gifImage = document.getElementById('random-gif');
+            container.style.display = 'none';
+            gifImage.src = '';  // stop GIF playing by clearing src
         }
     </script>
 </body>
