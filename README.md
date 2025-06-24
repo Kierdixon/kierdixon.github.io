@@ -97,7 +97,7 @@
     </style>
 </head>
 <body>
-    <div class="bouncing-text">Alex is a homo!</div>
+    <div class="bouncing-text">Click for good luck!</div>
     <img src="https://i.imgur.com/B5oJFTW.png" alt="Cursor Image" class="cursor-image" />
 
     <div class="guestbook-box" onclick="openGuestbook()">Guestbook</div>
