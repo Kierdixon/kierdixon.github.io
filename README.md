@@ -118,7 +118,8 @@
     <div class="bouncing-text">Click for good luck!</div>
 
     <!-- Replace src with your transparent monkey cursor PNG path -->
-    <img src="Monkeys/monkey_cursor.png" alt="Cursor Image" class="cursor-image" />
+   <img src="Monkeys/monkeycursor.png" alt="Cursor Image" class="cursor-image" />
+
 
     <div class="bottom-buttons">
         <div class="guestbook-box" onclick="openGuestbook()">Guestbook</div>
