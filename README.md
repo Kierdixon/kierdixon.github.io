@@ -264,7 +264,7 @@
             'Monkeys/monkey-spinning.gif',
             'Monkeys/mongy-monke.gif',
             'Monkeys/fat-fat-monkey.gif',
-            'Monkeys/Spinpool.gif'
+            'Monkeys/spinpool.gif'
         ];
 
         function showRandomGif() {
