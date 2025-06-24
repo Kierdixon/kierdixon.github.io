@@ -60,11 +60,11 @@
             width: 50px;
             height: auto;
             pointer-events: none;
-
-            /* Fix background & border */
             background-color: transparent !important;
             border: none !important;
             image-rendering: auto;
+            user-select: none;
+            -webkit-user-drag: none;
         }
 
         /* Bottom buttons container */
@@ -117,9 +117,8 @@
 <body>
     <div class="bouncing-text">Click for good luck!</div>
 
-    <!-- Replace src with your transparent monkey cursor PNG path -->
-   <img src="Monkeys/monkeycursor.png" alt="Cursor Image" class="cursor-image" />
-
+    <!-- Transparent monkey cursor image -->
+    <img src="Monkeys/monkeycursor.png" alt="Cursor Image" class="cursor-image" />
 
     <div class="bottom-buttons">
         <div class="guestbook-box" onclick="openGuestbook()">Guestbook</div>
