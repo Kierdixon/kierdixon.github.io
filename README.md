@@ -4,6 +4,11 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Bouncing Text Box with Cursor Image and Guestbook</title>
     <style>
+        /* Hide auto-generated page titles like your GitHub username or repo name */
+        h1, header, .site-header, .page-header, .project-name {
+            display: none !important;
+        }
+
         body {
             background-image: url("https://i.imgur.com/1d9tmQg.png");
             background-size: cover;
