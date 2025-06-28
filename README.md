@@ -156,6 +156,38 @@
         #reset-button:hover {
             background-color: mediumseagreen;
         }
+
+        /* Coin Flip */
+        #coin-flip-container {
+            position: fixed;
+            left: 10px;
+            top: 50%;
+            transform: translateY(-50%);
+            background: rgba(255, 255, 255, 0.9);
+            border: 3px solid black;
+            padding: 10px;
+            z-index: 1000;
+            font-family: 'Comic Sans MS', cursive;
+            width: 150px;
+            text-align: center;
+        }
+
+        #coin-flip-result {
+            font-size: 24px;
+            margin: 10px 0;
+        }
+
+        #flip-button {
+            padding: 5px;
+            cursor: pointer;
+            font-weight: bold;
+            background-color: gold;
+            border: 2px solid black;
+        }
+
+        #flip-button:hover {
+            background-color: orange;
+        }
     </style>
 </head>
 <body>
@@ -182,6 +214,12 @@
     <div id="tic-tac-toe-container">
         <div id="tic-tac-toe-board"></div>
         <button id="reset-button">Reset</button>
+    </div>
+
+    <!-- Coin Flip -->
+    <div id="coin-flip-container">
+        <div id="coin-flip-result">Flip me!</div>
+        <button id="flip-button">Flip Coin</button>
     </div>
 
     <script>
@@ -304,6 +342,15 @@
 
         resetButton.addEventListener('click', createBoard);
         createBoard();
+
+        // Coin Flip logic
+        const flipBtn = document.getElementById('flip-button');
+        const flipResult = document.getElementById('coin-flip-result');
+
+        flipBtn.addEventListener('click', () => {
+            const result = Math.random() < 0.5 ? 'Heads' : 'Tails';
+            flipResult.textContent = result;
+        });
     </script>
 </body>
 </html>
