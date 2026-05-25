@@ -188,6 +188,102 @@
         #flip-button:hover {
             background-color: orange;
         }
+    
+        /* Train Mission Tracker */
+        #trains-button {
+            position: fixed;
+            right: 12px;
+            bottom: 12px;
+            z-index: 2500;
+            background: #5b2f16;
+            color: #fff1cf;
+            border: 3px solid black;
+            padding: 10px 14px;
+            font-family: 'Comic Sans MS', cursive;
+            font-weight: bold;
+            cursor: pointer;
+            box-shadow: 3px 3px 0 black;
+        }
+
+        #trains-button:hover {
+            background: #7b421f;
+        }
+
+        #trains-panel {
+            display: none;
+            position: fixed;
+            right: 12px;
+            bottom: 62px;
+            width: min(420px, calc(100vw - 24px));
+            max-height: 82vh;
+            overflow-y: auto;
+            z-index: 2400;
+            background: rgba(255, 244, 213, 0.96);
+            border: 4px solid black;
+            padding: 12px;
+            font-family: 'Comic Sans MS', cursive;
+            color: black;
+            box-sizing: border-box;
+        }
+
+        #trains-panel h2, #trains-panel h3 {
+            margin: 6px 0;
+            text-align: center;
+        }
+
+        .train-row {
+            display: grid;
+            grid-template-columns: 1fr 70px 80px;
+            gap: 6px;
+            align-items: center;
+            margin: 4px 0;
+        }
+
+        .train-row input {
+            width: 100%;
+            box-sizing: border-box;
+            padding: 4px;
+            border: 2px solid black;
+            font-family: inherit;
+        }
+
+        .train-mission {
+            border: 2px solid black;
+            background: rgba(255,255,255,0.55);
+            padding: 8px;
+            margin-top: 8px;
+        }
+
+        .train-mission button, .train-small-button {
+            width: 100%;
+            margin-top: 6px;
+            padding: 6px;
+            border: 2px solid black;
+            background: #c28339;
+            font-family: inherit;
+            font-weight: bold;
+            cursor: pointer;
+        }
+
+        .train-mission button:hover, .train-small-button:hover {
+            background: #d89a4e;
+        }
+
+        #train-message {
+            margin-top: 8px;
+            text-align: center;
+            font-weight: bold;
+            min-height: 22px;
+        }
+
+        .train-close {
+            float: right;
+            border: 2px solid black;
+            background: lightcoral;
+            cursor: pointer;
+            font-weight: bold;
+        }
+
     </style>
 </head>
 <body>
@@ -221,6 +317,25 @@
         <div id="coin-flip-result">Flip me!</div>
         <button id="flip-button">Flip Coin</button>
     </div>
+
+    <!-- Train Mission Tracker -->
+    <button id="trains-button" onclick="toggleTrainsPanel()">Trains</button>
+
+    <div id="trains-panel">
+        <button class="train-close" onclick="toggleTrainsPanel()">X</button>
+        <h2>Train Missions</h2>
+        <div id="train-message"></div>
+
+        <h3>Inventory</h3>
+        <div id="train-inventory"></div>
+
+        <button class="train-small-button" onclick="saveTrainInventory()">Save Inventory Totals</button>
+        <button class="train-small-button" onclick="resetTrainInventory()">Reset Inventory</button>
+
+        <h3>Run Mission</h3>
+        <div id="train-missions"></div>
+    </div>
+
 
     <script>
         const box = document.querySelector('.bouncing-text');
@@ -351,6 +466,179 @@
             const result = Math.random() < 0.5 ? 'Heads' : 'Tails';
             flipResult.textContent = result;
         });
+    
+        // Train Mission Tracker
+        // Edit these mission requirements any time you want.
+        const TRAIN_MISSIONS = {
+            "Mission 1": {
+                "Iron Bar": 0,
+                "Copper Bar": 0,
+                "Gold Bar": 0
+            },
+            "Mission 2": {
+                "Iron Bar": 0,
+                "Copper Bar": 0,
+                "Gold Bar": 0
+            },
+            "Mission 3": {
+                "Iron Bar": 0,
+                "Copper Bar": 0,
+                "Gold Bar": 0,
+                "Tin Tent": 0,
+                "Beer Boxes": 0
+            },
+            "Mission 4": {
+                "Iron Bar": 0,
+                "Copper Bar": 0,
+                "Gold Bar": 0
+            },
+            "Mission 5": {
+                "Acid": 0
+            }
+        };
+
+        const DEFAULT_TRAIN_INVENTORY = {
+            "Iron Bar": 1841,
+            "Copper Bar": 2124,
+            "Gold Bar": 2515,
+            "Tin Tent": 2135,
+            "Beer Boxes": 2112,
+            "Acid": 0
+        };
+
+        let trainInventory = loadTrainInventory();
+
+        function loadTrainInventory() {
+            const saved = localStorage.getItem('trainInventory');
+            if (saved) {
+                return JSON.parse(saved);
+            }
+            return {...DEFAULT_TRAIN_INVENTORY};
+        }
+
+        function storeTrainInventory() {
+            localStorage.setItem('trainInventory', JSON.stringify(trainInventory));
+        }
+
+        function toggleTrainsPanel() {
+            const panel = document.getElementById('trains-panel');
+            panel.style.display = panel.style.display === 'block' ? 'none' : 'block';
+            renderTrainTracker();
+        }
+
+        function renderTrainTracker() {
+            renderTrainInventory();
+            renderTrainMissions();
+        }
+
+        function renderTrainInventory() {
+            const inventoryBox = document.getElementById('train-inventory');
+            inventoryBox.innerHTML = '';
+
+            Object.keys(trainInventory).sort().forEach(item => {
+                const row = document.createElement('div');
+                row.className = 'train-row';
+
+                const label = document.createElement('div');
+                label.textContent = item;
+
+                const current = document.createElement('input');
+                current.type = 'number';
+                current.value = trainInventory[item];
+                current.id = 'train-inventory-' + item.replaceAll(' ', '-');
+
+                const addBox = document.createElement('input');
+                addBox.type = 'number';
+                addBox.placeholder = '+ add';
+                addBox.id = 'train-add-' + item.replaceAll(' ', '-');
+
+                row.appendChild(label);
+                row.appendChild(current);
+                row.appendChild(addBox);
+                inventoryBox.appendChild(row);
+            });
+        }
+
+        function saveTrainInventory() {
+            Object.keys(trainInventory).forEach(item => {
+                const safeName = item.replaceAll(' ', '-');
+                const totalInput = document.getElementById('train-inventory-' + safeName);
+                const addInput = document.getElementById('train-add-' + safeName);
+
+                const newTotal = Number(totalInput.value);
+                const addAmount = Number(addInput.value);
+
+                trainInventory[item] = isNaN(newTotal) ? 0 : newTotal;
+
+                if (!isNaN(addAmount) && addAmount > 0) {
+                    trainInventory[item] += addAmount;
+                }
+            });
+
+            storeTrainInventory();
+            renderTrainTracker();
+            showTrainMessage('Inventory updated.');
+        }
+
+        function runTrainMission(missionName) {
+            saveTrainInventory();
+
+            const mission = TRAIN_MISSIONS[missionName];
+
+            Object.keys(mission).forEach(item => {
+                if (trainInventory[item] === undefined) {
+                    trainInventory[item] = 0;
+                }
+
+                trainInventory[item] = Math.max(0, Number(trainInventory[item]) - Number(mission[item]));
+            });
+
+            storeTrainInventory();
+            renderTrainTracker();
+            showTrainMessage(missionName + ' completed. Materials removed.');
+        }
+
+        function renderTrainMissions() {
+            const missionsBox = document.getElementById('train-missions');
+            missionsBox.innerHTML = '';
+
+            Object.keys(TRAIN_MISSIONS).forEach(missionName => {
+                const mission = TRAIN_MISSIONS[missionName];
+                const box = document.createElement('div');
+                box.className = 'train-mission';
+
+                const title = document.createElement('strong');
+                title.textContent = missionName;
+                box.appendChild(title);
+
+                Object.keys(mission).forEach(item => {
+                    const line = document.createElement('div');
+                    line.textContent = item + ': ' + mission[item];
+                    box.appendChild(line);
+                });
+
+                const button = document.createElement('button');
+                button.textContent = 'Run ' + missionName;
+                button.onclick = () => runTrainMission(missionName);
+                box.appendChild(button);
+
+                missionsBox.appendChild(box);
+            });
+        }
+
+        function resetTrainInventory() {
+            trainInventory = {...DEFAULT_TRAIN_INVENTORY};
+            storeTrainInventory();
+            renderTrainTracker();
+            showTrainMessage('Inventory reset.');
+        }
+
+        function showTrainMessage(message) {
+            document.getElementById('train-message').textContent = message;
+        }
+
+        renderTrainTracker();
+
     </script>
 </body>
 </html>
