@@ -176,7 +176,26 @@
             cursor: auto;
         }
 
-        #trains-panel h2, #trains-panel h3 { margin: 6px 0; text-align: center; }
+        #trains-panel h2 { margin: 6px 0; text-align: center; }
+        #trains-panel h3 { margin: 0; }
+
+        .train-mission-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            gap: 8px;
+            margin-bottom: 6px;
+        }
+
+        .train-runs-badge {
+            background: #5b2f16;
+            color: #fff1cf;
+            border: 2px solid black;
+            padding: 3px 7px;
+            font-size: 13px;
+            font-weight: bold;
+            white-space: nowrap;
+        }
 
         .train-close {
             float: right;
@@ -420,9 +439,19 @@
                 const missionBox = document.createElement('div');
                 missionBox.className = 'train-mission';
 
+                const header = document.createElement('div');
+                header.className = 'train-mission-header';
+
                 const title = document.createElement('h3');
                 title.textContent = missionName;
-                missionBox.appendChild(title);
+
+                const runsBadge = document.createElement('div');
+                runsBadge.className = 'train-runs-badge';
+                runsBadge.textContent = 'Runs: ' + calculatePossibleRuns(missionName);
+
+                header.appendChild(title);
+                header.appendChild(runsBadge);
+                missionBox.appendChild(header);
 
                 const labelRow = document.createElement('div');
                 labelRow.className = 'train-label-row';
@@ -483,7 +512,25 @@
             });
 
             saveTrainData();
+            renderTrainTracker();
             showTrainMessage('Values saved.');
+        }
+
+        function calculatePossibleRuns(missionName) {
+            const mission = trainMissionCosts[missionName] || TRAIN_MISSIONS[missionName];
+            let possibleRuns = Infinity;
+
+            Object.keys(mission).forEach(item => {
+                const have = Number(trainInventory[item]) || 0;
+                const uses = Number(mission[item]) || 0;
+
+                if (uses > 0) {
+                    possibleRuns = Math.min(possibleRuns, Math.floor(have / uses));
+                }
+            });
+
+            if (possibleRuns === Infinity) return 0;
+            return possibleRuns;
         }
 
         function completeTrainMission(missionName) {
