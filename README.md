@@ -233,7 +233,7 @@
 
         .train-row {
             display: grid;
-            grid-template-columns: 1fr 70px 80px;
+            grid-template-columns: 1fr 70px 70px;
             gap: 6px;
             align-items: center;
             margin: 4px 0;
@@ -245,6 +245,15 @@
             padding: 4px;
             border: 2px solid black;
             font-family: inherit;
+        }
+
+        .train-label-row {
+            display: grid;
+            grid-template-columns: 1fr 70px 70px;
+            gap: 6px;
+            font-size: 12px;
+            font-weight: bold;
+            margin-top: 6px;
         }
 
         .train-mission {
@@ -326,13 +335,6 @@
         <h2>Train Missions</h2>
         <div id="train-message"></div>
 
-        <h3>Inventory</h3>
-        <div id="train-inventory"></div>
-
-        <button class="train-small-button" onclick="saveTrainInventory()">Save Inventory Totals</button>
-        <button class="train-small-button" onclick="resetTrainInventory()">Reset Inventory</button>
-
-        <h3>Run Mission</h3>
         <div id="train-missions"></div>
     </div>
 
@@ -468,62 +470,181 @@
         });
     
         // Train Mission Tracker
-        // Edit these mission requirements any time you want.
+        // Left number = how many you currently have. Right number = how many the mission uses.
         const TRAIN_MISSIONS = {
             "Mission 1": {
-                "Iron Bar": 0,
-                "Copper Bar": 0,
-                "Gold Bar": 0
+                "Sugar Sacks": 25,
+                "Strong Stims": 25,
+                "Fiber": 25,
+                "Wagon Repair": 2,
+                "Rocks": 200
             },
             "Mission 2": {
-                "Iron Bar": 0,
-                "Copper Bar": 0,
-                "Gold Bar": 0
+                "Carcano": 1,
+                "Volcanic": 1,
+                "Winchester": 1,
+                "Navy": 1,
+                "Scholfield": 1,
+                "Semi Auto Shot": 1
             },
             "Mission 3": {
-                "Iron Bar": 0,
-                "Copper Bar": 0,
-                "Gold Bar": 0,
-                "Tin Tent": 0,
-                "Beer Boxes": 0
+                "Iron Bar": 25,
+                "Copper Bar": 25,
+                "Gold Bar": 25,
+                "Tin Tent": 10,
+                "Beer Boxes": 10
             },
             "Mission 4": {
-                "Iron Bar": 0,
-                "Copper Bar": 0,
-                "Gold Bar": 0
+                "Copper Bar": 25,
+                "Shell Casing": 175,
+                "Fertilizer": 10,
+                "Bison Pelt": 1,
+                "Med Box": 1
             },
             "Mission 5": {
-                "Acid": 0
+                "Acid": 20,
+                "Lucky Coin": 20,
+                "Flower Coffin": 5,
+                "Blue Paint": 20,
+                "Firewood": 20
             }
         };
 
-        const DEFAULT_TRAIN_INVENTORY = {
-            "Iron Bar": 1841,
-            "Copper Bar": 2124,
-            "Gold Bar": 2515,
-            "Tin Tent": 2135,
-            "Beer Boxes": 2112,
-            "Acid": 0
-        };
+        const DEFAULT_TRAIN_INVENTORY = {};
+
+        Object.values(TRAIN_MISSIONS).forEach(mission => {
+            Object.keys(mission).forEach(item => {
+                DEFAULT_TRAIN_INVENTORY[item] = 0;
+            });
+        });
 
         let trainInventory = loadTrainInventory();
+        let trainMissionCosts = loadTrainMissionCosts();
 
         function loadTrainInventory() {
             const saved = localStorage.getItem('trainInventory');
-            if (saved) {
-                return JSON.parse(saved);
-            }
+            if (saved) return JSON.parse(saved);
             return {...DEFAULT_TRAIN_INVENTORY};
         }
 
-        function storeTrainInventory() {
+        function loadTrainMissionCosts() {
+            const saved = localStorage.getItem('trainMissionCosts');
+            if (saved) return JSON.parse(saved);
+            return JSON.parse(JSON.stringify(TRAIN_MISSIONS));
+        }
+
+        function storeTrainData() {
             localStorage.setItem('trainInventory', JSON.stringify(trainInventory));
+            localStorage.setItem('trainMissionCosts', JSON.stringify(trainMissionCosts));
         }
 
         function toggleTrainsPanel() {
             const panel = document.getElementById('trains-panel');
             panel.style.display = panel.style.display === 'block' ? 'none' : 'block';
             renderTrainTracker();
+        }
+
+        function renderTrainTracker() {
+            const missionsBox = document.getElementById('train-missions');
+            missionsBox.innerHTML = '';
+
+            Object.keys(TRAIN_MISSIONS).forEach(missionName => {
+                if (!trainMissionCosts[missionName]) {
+                    trainMissionCosts[missionName] = {...TRAIN_MISSIONS[missionName]};
+                }
+
+                const missionBox = document.createElement('div');
+                missionBox.className = 'train-mission';
+
+                const title = document.createElement('h3');
+                title.textContent = missionName;
+                missionBox.appendChild(title);
+
+                const labelRow = document.createElement('div');
+                labelRow.className = 'train-label-row';
+                labelRow.innerHTML = '<div>Item</div><div>Have</div><div>Uses</div>';
+                missionBox.appendChild(labelRow);
+
+                Object.keys(TRAIN_MISSIONS[missionName]).forEach(item => {
+                    if (trainInventory[item] === undefined) trainInventory[item] = 0;
+                    if (trainMissionCosts[missionName][item] === undefined) trainMissionCosts[missionName][item] = 0;
+
+                    const row = document.createElement('div');
+                    row.className = 'train-row';
+
+                    const label = document.createElement('div');
+                    label.textContent = item;
+
+                    const haveInput = document.createElement('input');
+                    haveInput.type = 'number';
+                    haveInput.value = trainInventory[item];
+                    haveInput.dataset.item = item;
+                    haveInput.className = 'train-have-input';
+
+                    const usesInput = document.createElement('input');
+                    usesInput.type = 'number';
+                    usesInput.value = trainMissionCosts[missionName][item];
+                    usesInput.dataset.mission = missionName;
+                    usesInput.dataset.item = item;
+                    usesInput.className = 'train-uses-input';
+
+                    row.appendChild(label);
+                    row.appendChild(haveInput);
+                    row.appendChild(usesInput);
+                    missionBox.appendChild(row);
+                });
+
+                const saveButton = document.createElement('button');
+                saveButton.textContent = 'Save ' + missionName + ' Values';
+                saveButton.onclick = saveTrainValues;
+                missionBox.appendChild(saveButton);
+
+                const runButton = document.createElement('button');
+                runButton.textContent = 'Complete ' + missionName + ' Run';
+                runButton.onclick = () => completeTrainMission(missionName);
+                missionBox.appendChild(runButton);
+
+                missionsBox.appendChild(missionBox);
+            });
+        }
+
+        function saveTrainValues() {
+            document.querySelectorAll('.train-have-input').forEach(input => {
+                const item = input.dataset.item;
+                trainInventory[item] = Number(input.value) || 0;
+            });
+
+            document.querySelectorAll('.train-uses-input').forEach(input => {
+                const mission = input.dataset.mission;
+                const item = input.dataset.item;
+                if (!trainMissionCosts[mission]) trainMissionCosts[mission] = {};
+                trainMissionCosts[mission][item] = Number(input.value) || 0;
+            });
+
+            storeTrainData();
+            renderTrainTracker();
+            showTrainMessage('Values saved.');
+        }
+
+        function completeTrainMission(missionName) {
+            saveTrainValues();
+
+            Object.keys(trainMissionCosts[missionName]).forEach(item => {
+                const current = Number(trainInventory[item]) || 0;
+                const used = Number(trainMissionCosts[missionName][item]) || 0;
+                trainInventory[item] = Math.max(0, current - used);
+            });
+
+            storeTrainData();
+            renderTrainTracker();
+            showTrainMessage(missionName + ' run completed.');
+        }
+
+        function showTrainMessage(message) {
+            document.getElementById('train-message').textContent = message;
+        }
+
+        renderTrainTracker();
         }
 
         function renderTrainTracker() {
