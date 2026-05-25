@@ -473,6 +473,7 @@
                     haveInput.value = trainInventory[item];
                     haveInput.dataset.item = item;
                     haveInput.className = 'train-have-input';
+                    haveInput.addEventListener('input', syncTrainHaveInputs);
 
                     const usesInput = document.createElement('input');
                     usesInput.type = 'number';
@@ -502,8 +503,14 @@
         }
 
         function saveTrainValues() {
+            const newestValues = {};
+
             document.querySelectorAll('.train-have-input').forEach(input => {
-                trainInventory[input.dataset.item] = Number(input.value) || 0;
+                newestValues[input.dataset.item] = Number(input.value) || 0;
+            });
+
+            Object.keys(newestValues).forEach(item => {
+                trainInventory[item] = newestValues[item];
             });
 
             document.querySelectorAll('.train-uses-input').forEach(input => {
@@ -514,6 +521,18 @@
             saveTrainData();
             renderTrainTracker();
             showTrainMessage('Values saved.');
+        }
+
+        function syncTrainHaveInputs(event) {
+            const changedInput = event.target;
+            const item = changedInput.dataset.item;
+            const value = changedInput.value;
+
+            document.querySelectorAll('.train-have-input').forEach(input => {
+                if (input.dataset.item === item && input !== changedInput) {
+                    input.value = value;
+                }
+            });
         }
 
         function calculatePossibleRuns(missionName) {
