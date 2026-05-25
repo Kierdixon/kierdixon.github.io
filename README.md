@@ -443,7 +443,13 @@
                 header.className = 'train-mission-header';
 
                 const title = document.createElement('h3');
-                title.textContent = missionName;
+                const missionLabels = {
+                    'Mission 3': 'Mission 3 - FN to DR',
+                    'Mission 4': 'Mission 4 - ER to SD',
+                    'Mission 5': 'Mission 5 - Rigg to Wall'
+                };
+
+                title.textContent = missionLabels[missionName] || missionName;
 
                 const runsBadge = document.createElement('div');
                 runsBadge.className = 'train-runs-badge';
