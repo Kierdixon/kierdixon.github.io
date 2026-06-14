@@ -1,0 +1,288 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Pay Calculator</title>
+
+<style>
+body {
+    background: #f4e1b8;
+    font-family: "Comic Sans MS", cursive, sans-serif;
+    margin: 0;
+    padding: 20px;
+}
+
+.container {
+    max-width: 700px;
+    margin: auto;
+    background: rgba(255,255,255,0.95);
+    border: 4px solid black;
+    padding: 20px;
+    box-shadow: 6px 6px 0 black;
+}
+
+h1 {
+    text-align: center;
+    margin-top: 0;
+}
+
+.toggle-container {
+    text-align: center;
+    margin-bottom: 25px;
+}
+
+.pay-mode-toggle {
+    display: flex;
+    justify-content: center;
+    margin-bottom: 15px;
+}
+
+.pay-mode-toggle input {
+    display: none;
+}
+
+.slider {
+    position: relative;
+    width: 280px;
+    height: 60px;
+    background: #4a8cff;
+    border: 3px solid black;
+    border-radius: 40px;
+    cursor: pointer;
+    overflow: hidden;
+}
+
+.slider::before {
+    content: "";
+    position: absolute;
+    width: 50%;
+    height: 100%;
+    background: #2ecc71;
+    left: 0;
+    top: 0;
+    transition: 0.3s;
+}
+
+.pay-mode-toggle input:checked + .slider::before {
+    left: 50%;
+}
+
+.salary-text,
+.contract-text {
+    position: absolute;
+    top: 50%;
+    transform: translateY(-50%);
+    font-weight: bold;
+    font-size: 18px;
+    z-index: 2;
+    width: 50%;
+    text-align: center;
+    color: black;
+}
+
+.salary-text {
+    left: 0;
+}
+
+.contract-text {
+    right: 0;
+}
+
+.current-mode {
+    font-size: 22px;
+    font-weight: bold;
+    text-align: center;
+}
+
+table {
+    width: 100%;
+    border-collapse: collapse;
+    margin-bottom: 20px;
+}
+
+th, td {
+    border: 2px solid black;
+    padding: 10px;
+    text-align: left;
+}
+
+th {
+    background: #d9b97a;
+}
+
+input[type="number"] {
+    width: 100%;
+    box-sizing: border-box;
+    padding: 6px;
+    border: 2px solid black;
+    font-family: inherit;
+    font-size: 16px;
+}
+
+button {
+    width: 100%;
+    padding: 12px;
+    font-size: 18px;
+    font-weight: bold;
+    font-family: inherit;
+    cursor: pointer;
+    border: 3px solid black;
+    background: darkgreen;
+    color: white;
+    margin-top: 10px;
+}
+
+.back-button {
+    background: brown;
+}
+
+#total {
+    text-align: center;
+    font-size: 36px;
+    font-weight: bold;
+    margin-top: 20px;
+    border: 3px solid black;
+    padding: 15px;
+    background: #fff4d6;
+}
+</style>
+</head>
+
+<body>
+
+<div class="container">
+
+    <h1>Pay Calculator</h1>
+
+    <div class="toggle-container">
+        <div class="pay-mode-toggle">
+            <input type="checkbox" id="payType">
+            <label for="payType" class="slider">
+                <span class="salary-text">SALARY</span>
+                <span class="contract-text">CONTRACT</span>
+            </label>
+        </div>
+
+        <div id="currentMode" class="current-mode">
+            Salary Rates Active
+        </div>
+    </div>
+
+    <table>
+        <tr>
+            <th>Item</th>
+            <th>Amount</th>
+        </tr>
+
+        <tr>
+            <td>Crude Oil</td>
+            <td><input type="number" id="crude" value="0" min="0"></td>
+        </tr>
+
+        <tr>
+            <td>Refined Oil</td>
+            <td><input type="number" id="refined" value="0" min="0"></td>
+        </tr>
+
+        <tr>
+            <td>Nitrate</td>
+            <td><input type="number" id="nitrate" value="0" min="0"></td>
+        </tr>
+
+        <tr>
+            <td>Copper Coils</td>
+            <td><input type="number" id="coils" value="0" min="0"></td>
+        </tr>
+
+        <tr>
+            <td>Gears</td>
+            <td><input type="number" id="gears" value="0" min="0"></td>
+        </tr>
+
+        <tr>
+            <td>Springs</td>
+            <td><input type="number" id="springs" value="0" min="0"></td>
+        </tr>
+
+        <tr>
+            <td>Car Batteries</td>
+            <td><input type="number" id="batteries" value="0" min="0"></td>
+        </tr>
+
+        <tr>
+            <td>Corn Seed Batches / 1,000 Seeds</td>
+            <td><input type="number" id="corn" value="0" min="0"></td>
+        </tr>
+    </table>
+
+    <button onclick="calculatePay()">Calculate Pay</button>
+
+    <div id="total">$0</div>
+
+    <button class="back-button" onclick="window.location.href='index.html'">
+        Back
+    </button>
+
+</div>
+
+<script>
+const CONTRACT = {
+    crude: 50,
+    refined: 150,
+    nitrate: 55,
+    coils: 70,
+    gears: 100,
+    springs: 70,
+    batteries: 1750,
+    corn: 4000
+};
+
+const SALARY = {
+    crude: 66,
+    refined: 200,
+    nitrate: 60,
+    coils: 80,
+    gears: 125,
+    springs: 80,
+    batteries: 2000,
+    corn: 5000
+};
+
+const payToggle = document.getElementById("payType");
+const currentMode = document.getElementById("currentMode");
+
+payToggle.addEventListener("change", () => {
+    if (payToggle.checked) {
+        currentMode.textContent = "Contract Rates Active";
+    } else {
+        currentMode.textContent = "Salary Rates Active";
+    }
+
+    calculatePay();
+});
+
+document.querySelectorAll('input[type="number"]').forEach(input => {
+    input.addEventListener("input", calculatePay);
+});
+
+function calculatePay() {
+    const rates = payToggle.checked ? CONTRACT : SALARY;
+
+    let total = 0;
+
+    total += (Number(document.getElementById("crude").value) || 0) * rates.crude;
+    total += (Number(document.getElementById("refined").value) || 0) * rates.refined;
+    total += (Number(document.getElementById("nitrate").value) || 0) * rates.nitrate;
+    total += (Number(document.getElementById("coils").value) || 0) * rates.coils;
+    total += (Number(document.getElementById("gears").value) || 0) * rates.gears;
+    total += (Number(document.getElementById("springs").value) || 0) * rates.springs;
+    total += (Number(document.getElementById("batteries").value) || 0) * rates.batteries;
+    total += (Number(document.getElementById("corn").value) || 0) * rates.corn;
+
+    document.getElementById("total").textContent = "$" + total.toLocaleString();
+}
+</script>
+
+</body>
+</html>
